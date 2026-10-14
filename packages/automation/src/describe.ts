@@ -1,5 +1,6 @@
 import type { Action, Condition, RuleDefinition } from "@acc/domain";
 
+const FAN: Record<string, string> = { low: "baixa", mid: "média", high: "alta", auto: "auto", nature: "natural", low_mid: "baixa-média", mid_high: "média-alta" };
 const MODE: Record<string, string> = { cool: "frio", heat: "quente", dry: "seco", fan: "ventilar", auto: "auto" };
 const DAY = ["", "seg", "ter", "qua", "qui", "sex", "sáb", "dom"];
 const dur = (s: number) => (s % 3600 === 0 ? `${s / 3600} h` : s % 60 === 0 ? `${s / 60} min` : `${s} s`);
@@ -24,7 +25,7 @@ export function describeActions(a: Action[]): string {
     if (x.power !== undefined) p.push(x.power ? "ligar" : "desligar");
     if (x.mode) p.push(`modo ${MODE[x.mode] ?? x.mode}`);
     if (x.targetTemp !== undefined) p.push(`${x.targetTemp} °C`);
-    if (x.fan) p.push(`ventilação ${x.fan}`);
+    if (x.fan) p.push(`ventilação ${FAN[x.fan] ?? x.fan}`);
     if (x.swingV !== undefined) p.push(`swing V ${x.swingV ? "on" : "off"}`);
     if (x.powerSave !== undefined) p.push(`economia ${x.powerSave ? "on" : "off"}`);
     return p.join(", ");

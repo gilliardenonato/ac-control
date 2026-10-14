@@ -17,5 +17,8 @@ coverage/
 secrets/
 
 
-# Docs de trabalho (só locais); só README e docs/img vão para o git
-docs/*.md
+# Notas de trabalho (só locais)
+docs/status.md
+docs/spike0-results.md
+docs/plano-tecnico.md
+docs/relatorio-viabilidade.md
