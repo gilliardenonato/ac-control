@@ -1,0 +1,10 @@
+node_modules
+**/node_modules
+dist
+data
+secrets
+.env
+.env.*
+.git
+.playwright-mcp
+spikes/spike0/out

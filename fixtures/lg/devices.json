@@ -1,0 +1,15 @@
+{
+  "messageId": "f7MOkPQySDmBy03irrdI_w",
+  "timestamp": "2026-10-06T00:34:26.597301",
+  "response": [
+    {
+      "deviceId": "DEVICE_1",
+      "deviceInfo": {
+        "deviceType": "DEVICE_AIR_CONDITIONER",
+        "modelName": "RAC_056905_WW",
+        "alias": "AC",
+        "reportable": true
+      }
+    }
+  ]
+}

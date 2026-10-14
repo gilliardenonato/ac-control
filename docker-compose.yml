@@ -1,0 +1,24 @@
+# docker compose up -d   (crie antes os arquivos em ./secrets, veja README)
+services:
+  ac-control:
+    build: .
+    restart: unless-stopped
+    ports: ["127.0.0.1:8080:8080"]   # exponha só atrás de proxy reverso/VPN
+    environment:
+      PROVIDER: ${PROVIDER:-lg-thinq}  # use "fake" para testar sem aparelho
+      LG_COUNTRY: ${LG_COUNTRY:-BR}
+      USER_TZ: ${USER_TZ:-America/Sao_Paulo}
+      LG_PAT_FILE: /run/secrets/lg_pat
+      ADMIN_PASSWORD_HASH_FILE: /run/secrets/admin_password_hash
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}   # "true" quando servido por HTTPS
+    secrets: [lg_pat, admin_password_hash]
+    volumes: [ac-data:/data]
+    read_only: true
+    tmpfs: [/tmp]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+volumes:
+  ac-data:
+secrets:
+  lg_pat: { file: ./secrets/lg_pat.txt }
+  admin_password_hash: { file: ./secrets/admin_password_hash.txt }

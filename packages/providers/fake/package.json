@@ -1,0 +1,11 @@
+{
+  "name": "@acc/provider-fake",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@acc/domain": "workspace:*",
+    "@acc/provider-api": "workspace:*"
+  }
+}

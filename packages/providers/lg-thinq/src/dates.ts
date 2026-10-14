@@ -1,0 +1,2 @@
+export const addDaysStr = (date: string, n: number): string => { const [y, m, d] = date.split("-").map(Number) as [number, number, number]; return new Date(Date.UTC(y, m - 1, d + n)).toISOString().slice(0, 10); };
+export const addMonthsStr = (month: string, n: number): string => { const [y, m] = month.split("-").map(Number) as [number, number]; const d = new Date(Date.UTC(y, m - 1 + n, 1)); return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}`; };

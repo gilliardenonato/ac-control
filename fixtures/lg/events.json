@@ -1,0 +1,48 @@
+[
+  {
+    "pushType": "DEVICE_STATUS",
+    "serviceId": "<REDACTED>",
+    "deviceId": "DEVICE_1",
+    "userList": "<REDACTED>",
+    "report": {
+      "temperature": {
+        "targetTemperature": 23,
+        "unit": "C"
+      },
+      "temperatureInUnits": [
+        {
+          "targetTemperature": 23,
+          "unit": "C"
+        },
+        {
+          "targetTemperature": 74,
+          "unit": "F"
+        }
+      ]
+    },
+    "deviceType": "DEVICE_AIR_CONDITIONER"
+  },
+  {
+    "pushType": "DEVICE_STATUS",
+    "serviceId": "<REDACTED>",
+    "deviceId": "DEVICE_1",
+    "userList": "<REDACTED>",
+    "report": {
+      "temperature": {
+        "targetTemperature": 22,
+        "unit": "C"
+      },
+      "temperatureInUnits": [
+        {
+          "targetTemperature": 22,
+          "unit": "C"
+        },
+        {
+          "targetTemperature": 72,
+          "unit": "F"
+        }
+      ]
+    },
+    "deviceType": "DEVICE_AIR_CONDITIONER"
+  }
+]

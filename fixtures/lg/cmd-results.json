@@ -1,0 +1,610 @@
+[
+  {
+    "label": "temp+1",
+    "body": {
+      "temperature": {
+        "targetTemperature": 23,
+        "unit": "C"
+      }
+    },
+    "status": 200,
+    "ms": 1872,
+    "resp": {
+      "messageId": "TMTgLiFVTqiPZwgxdOH4Lw",
+      "timestamp": "2026-10-06T00:54:27.871046",
+      "response": {}
+    }
+  },
+  {
+    "label": "temp+1:state@+5s",
+    "state": {
+      "runState": {
+        "currentState": "NORMAL"
+      },
+      "airConJobMode": {
+        "currentJobMode": "COOL"
+      },
+      "temperature": {
+        "currentTemperature": 28.5,
+        "targetTemperature": 23,
+        "unit": "C",
+        "minTargetTemperature": 18,
+        "maxTargetTemperature": 30
+      },
+      "temperatureInUnits": [
+        {
+          "currentTemperature": 28.5,
+          "targetTemperature": 23,
+          "minTargetTemperature": 18,
+          "maxTargetTemperature": 30,
+          "unit": "C"
+        },
+        {
+          "currentTemperature": 83,
+          "targetTemperature": 74,
+          "minTargetTemperature": 64,
+          "maxTargetTemperature": 86,
+          "unit": "F"
+        }
+      ],
+      "filterInfo": {
+        "filterLifetime": 0,
+        "usedTime": 720
+      },
+      "airFlow": {
+        "windStrength": "HIGH",
+        "windStrengthDetail": "HIGH",
+        "windStep": 5
+      },
+      "windDirection": {
+        "rotateUpDown": true
+      },
+      "operation": {
+        "airConOperationMode": "POWER_ON"
+      },
+      "timer": {
+        "relativeStartTimer": "UNSET",
+        "relativeStopTimer": "UNSET"
+      },
+      "sleepTimer": {
+        "relativeStopTimer": "UNSET"
+      },
+      "display": {
+        "light": "ON"
+      }
+    },
+    "sinceSendMs": 8659
+  },
+  {
+    "label": "temp restore",
+    "body": {
+      "temperature": {
+        "targetTemperature": 22,
+        "unit": "C"
+      }
+    },
+    "status": 200,
+    "ms": 1810,
+    "resp": {
+      "messageId": "3yW_HUS7QJ-IpAOkTmfBTA",
+      "timestamp": "2026-10-06T00:54:36.326654",
+      "response": {}
+    }
+  },
+  {
+    "label": "temp restore:state@+5s",
+    "state": {
+      "runState": {
+        "currentState": "NORMAL"
+      },
+      "airConJobMode": {
+        "currentJobMode": "COOL"
+      },
+      "temperature": {
+        "currentTemperature": 28.5,
+        "targetTemperature": 22,
+        "unit": "C",
+        "minTargetTemperature": 18,
+        "maxTargetTemperature": 30
+      },
+      "temperatureInUnits": [
+        {
+          "currentTemperature": 28.5,
+          "targetTemperature": 22,
+          "minTargetTemperature": 18,
+          "maxTargetTemperature": 30,
+          "unit": "C"
+        },
+        {
+          "currentTemperature": 83,
+          "targetTemperature": 72,
+          "minTargetTemperature": 64,
+          "maxTargetTemperature": 86,
+          "unit": "F"
+        }
+      ],
+      "filterInfo": {
+        "filterLifetime": 0,
+        "usedTime": 720
+      },
+      "airFlow": {
+        "windStrength": "HIGH",
+        "windStrengthDetail": "HIGH",
+        "windStep": 5
+      },
+      "windDirection": {
+        "rotateUpDown": true
+      },
+      "operation": {
+        "airConOperationMode": "POWER_ON"
+      },
+      "timer": {
+        "relativeStartTimer": "UNSET",
+        "relativeStopTimer": "UNSET"
+      },
+      "sleepTimer": {
+        "relativeStopTimer": "UNSET"
+      },
+      "display": {
+        "light": "ON"
+      }
+    },
+    "sinceSendMs": 8734
+  },
+  {
+    "label": "temp repeat (dedup)",
+    "body": {
+      "temperature": {
+        "targetTemperature": 22,
+        "unit": "C"
+      }
+    },
+    "status": 200,
+    "ms": 2621,
+    "resp": {
+      "messageId": "2cU5M8m_T1e8ehsdUPvUfA",
+      "timestamp": "2026-10-06T00:54:45.705991",
+      "response": {}
+    }
+  },
+  {
+    "label": "temp repeat (dedup):state@+5s",
+    "state": {
+      "runState": {
+        "currentState": "NORMAL"
+      },
+      "airConJobMode": {
+        "currentJobMode": "COOL"
+      },
+      "temperature": {
+        "currentTemperature": 28.5,
+        "targetTemperature": 22,
+        "unit": "C",
+        "minTargetTemperature": 18,
+        "maxTargetTemperature": 30
+      },
+      "temperatureInUnits": [
+        {
+          "currentTemperature": 28.5,
+          "targetTemperature": 22,
+          "minTargetTemperature": 18,
+          "maxTargetTemperature": 30,
+          "unit": "C"
+        },
+        {
+          "currentTemperature": 83,
+          "targetTemperature": 72,
+          "minTargetTemperature": 64,
+          "maxTargetTemperature": 86,
+          "unit": "F"
+        }
+      ],
+      "filterInfo": {
+        "filterLifetime": 0,
+        "usedTime": 720
+      },
+      "airFlow": {
+        "windStrength": "HIGH",
+        "windStrengthDetail": "HIGH",
+        "windStep": 5
+      },
+      "windDirection": {
+        "rotateUpDown": true
+      },
+      "operation": {
+        "airConOperationMode": "POWER_ON"
+      },
+      "timer": {
+        "relativeStartTimer": "UNSET",
+        "relativeStopTimer": "UNSET"
+      },
+      "sleepTimer": {
+        "relativeStopTimer": "UNSET"
+      },
+      "display": {
+        "light": "ON"
+      }
+    },
+    "sinceSendMs": 9229
+  },
+  {
+    "label": "temp fora do range",
+    "body": {
+      "temperature": {
+        "targetTemperature": 99,
+        "unit": "C"
+      }
+    },
+    "status": 400,
+    "ms": 603,
+    "resp": {
+      "messageId": "rnhTZUUHSZ6x1E6QZZ1o7w",
+      "timestamp": "2026-10-06T00:54:52.826304",
+      "error": {
+        "message": "Not provided feature",
+        "code": "2201",
+        "details": "Invalid property value (not in range)"
+      }
+    }
+  },
+  {
+    "label": "temp fora do range:state@+5s",
+    "state": {
+      "runState": {
+        "currentState": "NORMAL"
+      },
+      "airConJobMode": {
+        "currentJobMode": "COOL"
+      },
+      "temperature": {
+        "currentTemperature": 28.5,
+        "targetTemperature": 22,
+        "unit": "C",
+        "minTargetTemperature": 18,
+        "maxTargetTemperature": 30
+      },
+      "temperatureInUnits": [
+        {
+          "currentTemperature": 28.5,
+          "targetTemperature": 22,
+          "minTargetTemperature": 18,
+          "maxTargetTemperature": 30,
+          "unit": "C"
+        },
+        {
+          "currentTemperature": 83,
+          "targetTemperature": 72,
+          "minTargetTemperature": 64,
+          "maxTargetTemperature": 86,
+          "unit": "F"
+        }
+      ],
+      "filterInfo": {
+        "filterLifetime": 0,
+        "usedTime": 720
+      },
+      "airFlow": {
+        "windStrength": "HIGH",
+        "windStrengthDetail": "HIGH",
+        "windStep": 5
+      },
+      "windDirection": {
+        "rotateUpDown": true
+      },
+      "operation": {
+        "airConOperationMode": "POWER_ON"
+      },
+      "timer": {
+        "relativeStartTimer": "UNSET",
+        "relativeStopTimer": "UNSET"
+      },
+      "sleepTimer": {
+        "relativeStopTimer": "UNSET"
+      },
+      "display": {
+        "light": "ON"
+      }
+    },
+    "sinceSendMs": 6989
+  },
+  {
+    "label": "fan MID",
+    "body": {
+      "airFlow": {
+        "windStrength": "MID"
+      }
+    },
+    "status": 200,
+    "ms": 1782,
+    "resp": {
+      "messageId": "g_uJNAJuTXODEGkGPnsWCA",
+      "timestamp": "2026-10-06T00:55:01.367947",
+      "response": {}
+    }
+  },
+  {
+    "label": "fan MID:state@+5s",
+    "state": {
+      "runState": {
+        "currentState": "NORMAL"
+      },
+      "airConJobMode": {
+        "currentJobMode": "COOL"
+      },
+      "temperature": {
+        "currentTemperature": 28,
+        "targetTemperature": 22,
+        "unit": "C",
+        "minTargetTemperature": 18,
+        "maxTargetTemperature": 30
+      },
+      "temperatureInUnits": [
+        {
+          "currentTemperature": 28,
+          "targetTemperature": 22,
+          "minTargetTemperature": 18,
+          "maxTargetTemperature": 30,
+          "unit": "C"
+        },
+        {
+          "currentTemperature": 82,
+          "targetTemperature": 72,
+          "minTargetTemperature": 64,
+          "maxTargetTemperature": 86,
+          "unit": "F"
+        }
+      ],
+      "filterInfo": {
+        "filterLifetime": 0,
+        "usedTime": 720
+      },
+      "airFlow": {
+        "windStrength": "MID",
+        "windStrengthDetail": "MID",
+        "windStep": 3
+      },
+      "windDirection": {
+        "rotateUpDown": true
+      },
+      "operation": {
+        "airConOperationMode": "POWER_ON"
+      },
+      "timer": {
+        "relativeStartTimer": "UNSET",
+        "relativeStopTimer": "UNSET"
+      },
+      "sleepTimer": {
+        "relativeStopTimer": "UNSET"
+      },
+      "display": {
+        "light": "ON"
+      }
+    },
+    "sinceSendMs": 8433
+  },
+  {
+    "label": "fan restore",
+    "body": {
+      "airFlow": {
+        "windStrength": "HIGH"
+      }
+    },
+    "status": 200,
+    "ms": 1746,
+    "resp": {
+      "messageId": "k__PY5JwQyqd8unWWetzAw",
+      "timestamp": "2026-10-06T00:55:09.634120",
+      "response": {}
+    }
+  },
+  {
+    "label": "fan restore:state@+5s",
+    "state": {
+      "runState": {
+        "currentState": "NORMAL"
+      },
+      "airConJobMode": {
+        "currentJobMode": "COOL"
+      },
+      "temperature": {
+        "currentTemperature": 28,
+        "targetTemperature": 22,
+        "unit": "C",
+        "minTargetTemperature": 18,
+        "maxTargetTemperature": 30
+      },
+      "temperatureInUnits": [
+        {
+          "currentTemperature": 28,
+          "targetTemperature": 22,
+          "minTargetTemperature": 18,
+          "maxTargetTemperature": 30,
+          "unit": "C"
+        },
+        {
+          "currentTemperature": 82,
+          "targetTemperature": 72,
+          "minTargetTemperature": 64,
+          "maxTargetTemperature": 86,
+          "unit": "F"
+        }
+      ],
+      "filterInfo": {
+        "filterLifetime": 0,
+        "usedTime": 720
+      },
+      "airFlow": {
+        "windStrength": "HIGH",
+        "windStrengthDetail": "HIGH",
+        "windStep": 5
+      },
+      "windDirection": {
+        "rotateUpDown": true
+      },
+      "operation": {
+        "airConOperationMode": "POWER_ON"
+      },
+      "timer": {
+        "relativeStartTimer": "UNSET",
+        "relativeStopTimer": "UNSET"
+      },
+      "sleepTimer": {
+        "relativeStopTimer": "UNSET"
+      },
+      "display": {
+        "light": "ON"
+      }
+    },
+    "sinceSendMs": 8200
+  },
+  {
+    "label": "swing toggle",
+    "body": {
+      "windDirection": {
+        "rotateUpDown": false
+      }
+    },
+    "status": 200,
+    "ms": 1787,
+    "resp": {
+      "messageId": "82kBjwRrQAeAP0vcZ4ssDA",
+      "timestamp": "2026-10-06T00:55:17.668806",
+      "response": {}
+    }
+  },
+  {
+    "label": "swing toggle:state@+5s",
+    "state": {
+      "runState": {
+        "currentState": "NORMAL"
+      },
+      "airConJobMode": {
+        "currentJobMode": "COOL"
+      },
+      "temperature": {
+        "currentTemperature": 28,
+        "targetTemperature": 22,
+        "unit": "C",
+        "minTargetTemperature": 18,
+        "maxTargetTemperature": 30
+      },
+      "temperatureInUnits": [
+        {
+          "currentTemperature": 28,
+          "targetTemperature": 22,
+          "minTargetTemperature": 18,
+          "maxTargetTemperature": 30,
+          "unit": "C"
+        },
+        {
+          "currentTemperature": 82,
+          "targetTemperature": 72,
+          "minTargetTemperature": 64,
+          "maxTargetTemperature": 86,
+          "unit": "F"
+        }
+      ],
+      "filterInfo": {
+        "filterLifetime": 0,
+        "usedTime": 720
+      },
+      "airFlow": {
+        "windStrength": "HIGH",
+        "windStrengthDetail": "HIGH",
+        "windStep": 5
+      },
+      "windDirection": {
+        "rotateUpDown": false
+      },
+      "operation": {
+        "airConOperationMode": "POWER_ON"
+      },
+      "timer": {
+        "relativeStartTimer": "UNSET",
+        "relativeStopTimer": "UNSET"
+      },
+      "sleepTimer": {
+        "relativeStopTimer": "UNSET"
+      },
+      "display": {
+        "light": "ON"
+      }
+    },
+    "sinceSendMs": 8223
+  },
+  {
+    "label": "swing restore",
+    "body": {
+      "windDirection": {
+        "rotateUpDown": true
+      }
+    },
+    "status": 200,
+    "ms": 1805,
+    "resp": {
+      "messageId": "8lhUwloGSfOeRIpCJkommQ",
+      "timestamp": "2026-10-06T00:55:25.736434",
+      "response": {}
+    }
+  },
+  {
+    "label": "swing restore:state@+5s",
+    "state": {
+      "runState": {
+        "currentState": "NORMAL"
+      },
+      "airConJobMode": {
+        "currentJobMode": "COOL"
+      },
+      "temperature": {
+        "currentTemperature": 28,
+        "targetTemperature": 22,
+        "unit": "C",
+        "minTargetTemperature": 18,
+        "maxTargetTemperature": 30
+      },
+      "temperatureInUnits": [
+        {
+          "currentTemperature": 28,
+          "targetTemperature": 22,
+          "minTargetTemperature": 18,
+          "maxTargetTemperature": 30,
+          "unit": "C"
+        },
+        {
+          "currentTemperature": 82,
+          "targetTemperature": 72,
+          "minTargetTemperature": 64,
+          "maxTargetTemperature": 86,
+          "unit": "F"
+        }
+      ],
+      "filterInfo": {
+        "filterLifetime": 0,
+        "usedTime": 720
+      },
+      "airFlow": {
+        "windStrength": "HIGH",
+        "windStrengthDetail": "HIGH",
+        "windStep": 5
+      },
+      "windDirection": {
+        "rotateUpDown": true
+      },
+      "operation": {
+        "airConOperationMode": "POWER_ON"
+      },
+      "timer": {
+        "relativeStartTimer": "UNSET",
+        "relativeStopTimer": "UNSET"
+      },
+      "sleepTimer": {
+        "relativeStopTimer": "UNSET"
+      },
+      "display": {
+        "light": "ON"
+      }
+    },
+    "sinceSendMs": 7627
+  }
+]

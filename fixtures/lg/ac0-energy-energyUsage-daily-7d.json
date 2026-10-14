@@ -1,0 +1,46 @@
+{
+  "messageId": "YaYDj9zcQQe11kTE9oliTw",
+  "timestamp": "2026-10-06T00:34:30.128226",
+  "response": {
+    "resultCode": "0000",
+    "result": {
+      "dataList": [
+        {
+          "energyUsage": 9759,
+          "usedDate": "20260929"
+        },
+        {
+          "energyUsage": 11349,
+          "usedDate": "20260930"
+        },
+        {
+          "energyUsage": 10278,
+          "usedDate": "20261001"
+        },
+        {
+          "energyUsage": 11773,
+          "usedDate": "20261002"
+        },
+        {
+          "energyUsage": 6128,
+          "usedDate": "20261003"
+        },
+        {
+          "usedDate": "20261004",
+          "energyUsage": 9819
+        },
+        {
+          "usedDate": "20261005",
+          "energyUsage": 9471
+        },
+        {
+          "usedDate": "20261006",
+          "energyUsage": 0
+        }
+      ],
+      "property": [
+        "energyUsage"
+      ]
+    }
+  }
+}

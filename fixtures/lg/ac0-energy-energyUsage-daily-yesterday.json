@@ -1,0 +1,18 @@
+{
+  "messageId": "X1BzkoUQRM6T7qCqlpVfpA",
+  "timestamp": "2026-10-06T00:34:29.654849",
+  "response": {
+    "resultCode": "0000",
+    "result": {
+      "dataList": [
+        {
+          "usedDate": "20261005",
+          "energyUsage": 9471
+        }
+      ],
+      "property": [
+        "energyUsage"
+      ]
+    }
+  }
+}

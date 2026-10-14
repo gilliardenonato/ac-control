@@ -1,0 +1,25 @@
+{
+  "name": "ac-control",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@10.17.1",
+  "scripts": {
+    "check": "tsc --noEmit -p tsconfig.json && vitest run",
+    "test": "vitest run",
+    "dev:api": "tsx watch apps/api/src/main.ts",
+    "hash-password": "tsx scripts/hash-password.ts",
+    "spike0": "tsx --env-file=.env spikes/spike0/run.ts",
+    "build:api": "esbuild apps/api/src/main.ts --bundle --platform=node --format=esm --target=node20 --outfile=dist/api/main.mjs --external:better-sqlite3 --banner:js=\"import{createRequire}from'module';const require=createRequire(import.meta.url);\"",
+    "build": "pnpm --filter @acc/web build && pnpm build:api"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0",
+    "esbuild": "^0.21.5"
+  }
+}

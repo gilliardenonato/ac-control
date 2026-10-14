@@ -1,0 +1,16 @@
+{
+  "name": "@acc/provider-lg-thinq",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@acc/domain": "workspace:*",
+    "@acc/provider-api": "workspace:*",
+    "mqtt": "^5.16.0",
+    "node-forge": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/node-forge": "^1.3.14"
+  }
+}

@@ -1,0 +1,21 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+/data/
+*.pem
+*.key
+*.crt
+*.db
+*.db-wal
+*.db-shm
+spikes/spike0/out/
+.playwright-mcp/
+coverage/
+
+secrets/
+
+
+# Docs de trabalho (só locais); só README e docs/img vão para o git
+docs/*.md

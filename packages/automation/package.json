@@ -1,0 +1,13 @@
+{
+  "name": "@acc/automation",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@acc/domain": "workspace:*",
+    "@acc/provider-api": "workspace:*",
+    "@acc/storage": "workspace:*",
+    "@acc/provider-fake": "workspace:*"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "messageId": "ntTt8A1QS9-EKVWsjnAzEg",
+  "timestamp": "2026-10-06T00:34:28.311533",
+  "response": {
+    "runState": {
+      "currentState": "NORMAL"
+    },
+    "airConJobMode": {
+      "currentJobMode": "COOL"
+    },
+    "temperature": {
+      "currentTemperature": 28.5,
+      "targetTemperature": 22,
+      "unit": "C",
+      "minTargetTemperature": 18,
+      "maxTargetTemperature": 30
+    },
+    "temperatureInUnits": [
+      {
+        "currentTemperature": 28.5,
+        "targetTemperature": 22,
+        "minTargetTemperature": 18,
+        "maxTargetTemperature": 30,
+        "unit": "C"
+      },
+      {
+        "currentTemperature": 83,
+        "targetTemperature": 72,
+        "minTargetTemperature": 64,
+        "maxTargetTemperature": 86,
+        "unit": "F"
+      }
+    ],
+    "filterInfo": {
+      "filterLifetime": 0,
+      "usedTime": 720
+    },
+    "airFlow": {
+      "windStrength": "HIGH",
+      "windStrengthDetail": "HIGH",
+      "windStep": 5
+    },
+    "windDirection": {
+      "rotateUpDown": true
+    },
+    "operation": {
+      "airConOperationMode": "POWER_ON"
+    },
+    "timer": {
+      "relativeStartTimer": "UNSET",
+      "relativeStopTimer": "UNSET"
+    },
+    "sleepTimer": {
+      "relativeStopTimer": "UNSET"
+    },
+    "display": {
+      "light": "ON"
+    }
+  }
+}

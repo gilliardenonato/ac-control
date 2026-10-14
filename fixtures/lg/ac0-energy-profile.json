@@ -1,0 +1,12 @@
+{
+  "messageId": "4CbuJYP9RHyLf2kbMzb52A",
+  "timestamp": "2026-10-06T00:34:28.713607",
+  "response": {
+    "resultCode": "0000",
+    "result": {
+      "property": [
+        "energyUsage"
+      ]
+    }
+  }
+}
