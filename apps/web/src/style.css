@@ -15,7 +15,7 @@ button, input, select { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--info); outline-offset: 2px; }
 .num { font-variant-numeric: tabular-nums; }
 .mono { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: .85em; }
-.muted { color: var(--muted-foreground); } .small { font-size: 12px; } .err { color: var(--crit); } .ok-text { color: var(--ok); }
+.muted { color: var(--muted-foreground); } .small { font-size: 12px; } .err { color: var(--crit); } .ok-text { color: var(--ok); } .warn-text { color: var(--warn); }
 
 /* tipografia: título da página > título de seção > rótulo de card > valor */
 .pagehead { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; margin-bottom: 1.25rem; }

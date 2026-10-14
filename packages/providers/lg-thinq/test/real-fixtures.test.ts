@@ -31,11 +31,11 @@ describe("aparelho real RAC_056905_WW", () => {
     expect(p.caps.temperature).toEqual({ min: 18, max: 30, step: 0.5 });
     expect(p.caps.fan!.values).toEqual(["low", "mid", "high", "auto"]); expect(p.fanKey).toBe("windStrength");
     expect(p.caps.swing).toEqual({ vertical: true, horizontal: false });
-    expect(p.caps.powerSave).toBe(false); expect(p.caps.humiditySensor).toBe(false); expect(p.caps.power).toBe(true);
+    expect(p.caps.display).toBe(true); expect(p.caps.powerSave).toBe(false); expect(p.caps.humiditySensor).toBe(false); expect(p.caps.power).toBe(true);
   });
   it("estado real: ligado, COOL, alvo 22, ambiente 28,5, fan high", () => {
     const { state: s } = parseState(state.response, parseProfile(profile.response));
-    expect(s).toEqual({ power: true, mode: "cool", targetTemp: 22, currentTemp: 28.5, fan: "high" });
+    expect(s).toEqual({ power: true, mode: "cool", targetTemp: 22, currentTemp: 28.5, fan: "high", display: true });
   });
   it("evento real é delta só de temperatura alvo; ambiente e power ficam ausentes (não substituem estado)", () => {
     const prov = mock().provider;

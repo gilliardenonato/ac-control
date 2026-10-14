@@ -203,6 +203,7 @@ export function validatePatch(p: AttributePatch, caps: Capabilities): string | n
   if (p.fan !== undefined && !caps.fan?.values.includes(p.fan)) return `fan ${p.fan} não suportado`;
   if ((p.swingV !== undefined && !caps.swing?.vertical) || (p.swingH !== undefined && !caps.swing?.horizontal)) return "swing não suportado";
   if (p.powerSave !== undefined && !caps.powerSave) return "power-save não suportado";
+  if (p.display !== undefined && !caps.display) return "visor não suportado";
   return null;
 }
 
@@ -213,6 +214,7 @@ export function reduceToChanges(p: AttributePatch, st: DeviceState): AttributePa
   if (p.mode !== undefined && v.mode !== p.mode) out.mode = p.mode;
   if (p.targetTemp !== undefined && !(v.targetTemp !== undefined && Math.abs(v.targetTemp - p.targetTemp) < TOLERANCE)) out.targetTemp = p.targetTemp;
   if (p.fan !== undefined && v.fan !== p.fan) out.fan = p.fan;
+  if (p.display !== undefined && v.display !== p.display) out.display = p.display;
   if (p.swingV !== undefined) out.swingV = p.swingV; // sem estado observado: sempre envia
   if (p.swingH !== undefined) out.swingH = p.swingH;
   if (p.powerSave !== undefined) out.powerSave = p.powerSave;
@@ -222,5 +224,6 @@ export function reduceToChanges(p: AttributePatch, st: DeviceState): AttributePa
 function satisfied(p: AttributePatch, v: DeviceState["values"]): boolean {
   return (p.power === undefined || v.power === p.power) && (p.mode === undefined || v.mode === p.mode)
     && (p.targetTemp === undefined || (v.targetTemp !== undefined && Math.abs(v.targetTemp - p.targetTemp) < TOLERANCE))
-    && (p.fan === undefined || v.fan === p.fan);
+    && (p.fan === undefined || v.fan === p.fan)
+    && (p.display === undefined || v.display === undefined || v.display === p.display);
 }

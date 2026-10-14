@@ -7,7 +7,7 @@ Uma automação liga e desliga o aparelho sozinha, sempre com limites que impede
 | Parte | Função | Exemplo |
 |---|---|---|
 | **Quando** | condição para começar | temperatura ≥ 27 °C por 10 min, entre 20:00 e 06:00 |
-| **Então** | o que enviar ao aparelho | ligar, modo frio, 23 °C, ventilação automática |
+| **Então** | o que enviar ao aparelho | ligar, modo frio, 23 °C, ventilação automática, apagar o visor |
 | **Até** | condição para terminar | temperatura ≤ 24 °C por 2 min |
 | **Depois** | o que fazer ao terminar | desligar |
 
@@ -15,7 +15,18 @@ Condições disponíveis: temperatura (com duração mínima), janela de horári
 
 ## Estados
 
-`Aguardando → Armada → Executando → Em espera → Aguardando`, mais `Suspensa`.
+```mermaid
+flowchart TB
+  A(["Aguardando"]) -->|"condição quando verdadeira"| B(["Armada"])
+  B -->|"deixou de ser verdadeira<br/>antes da duração mínima"| A
+  B -->|"duração cumprida,<br/>ações enviadas"| C(["Executando"])
+  C -->|"até, tempo máximo<br/>ou interferência"| D(["Em espera"])
+  D -->|"espera terminou"| A
+  A -.->|"mexeu no aparelho<br/>ou disjuntor"| S(["Suspensa"])
+  B -.-> S
+  C -.-> S
+  S -->|"prazo ou botão retomar"| A
+```
 
 - **Armada**: a condição "quando" é verdadeira e está contando a duração mínima. Se deixar de ser verdadeira antes, volta a Aguardando.
 - **Executando**: a regra executou e o aparelho está sob o controle dela até a condição "até", o tempo máximo ou uma interferência.
@@ -23,6 +34,18 @@ Condições disponíveis: temperatura (com duração mínima), janela de horári
 - **Suspensa**: pausada por alteração manual ou pelo disjuntor (*circuit breaker*, que corta as regras quando o aparelho recebe comandos demais). Volta sozinha depois do prazo ou pelo botão de retomar.
 
 O estado é gravado no banco a cada transição; reiniciar o servidor no meio de uma execução retoma de onde estava.
+
+## De onde vem a temperatura
+
+A regra pode usar o sensor do próprio ar-condicionado ou um [sensor externo (ESP32)](sensor-esp32.md). Os dois não são equivalentes:
+
+| | Sensor do ar-condicionado | ESP32 |
+|---|---|---|
+| **Desligar** quando a temperatura baixar ("até") | Funciona. Com o aparelho ligado ele informa a cada poucos minutos | Funciona, com leitura a cada 30 s |
+| **Ligar** quando a temperatura subir ("quando") | **Não funciona de forma confiável.** Desligado, o aparelho não atualiza a temperatura e a leitura fica parada | Funciona |
+| Umidade da sala | Não (este modelo não tem sensor de umidade) | Sim |
+
+Resumo: com o sensor do ar, use regras que só desligam. Para ligar o ar por temperatura é preciso um ESP32. O formulário de nova automação avisa quando uma regra que liga o aparelho está usando o sensor do ar.
 
 ## Proteções
 

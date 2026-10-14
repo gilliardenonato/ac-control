@@ -10,6 +10,7 @@ export const AttributePatchSchema = z.object({
   swingV: z.boolean().optional(),
   swingH: z.boolean().optional(),
   powerSave: z.boolean().optional(),
+  display: z.boolean().optional(),
 }).strict();
 
 export const CommandRequestSchema = z.object({
@@ -27,7 +28,7 @@ export type CommandDto = z.infer<typeof CommandSchema>;
 
 export const StateSchema = z.object({
   power: z.boolean().optional(), mode: ModeSchema.optional(), targetTemp: z.number().optional(),
-  currentTemp: z.number().optional(), fan: z.string().optional(), humidity: z.number().optional(), online: z.boolean().optional(),
+  currentTemp: z.number().optional(), fan: z.string().optional(), humidity: z.number().optional(), display: z.boolean().optional(), online: z.boolean().optional(),
 });
 export const DeviceSchema = z.object({
   id: z.string(), name: z.string(), model: z.string().nullable(),

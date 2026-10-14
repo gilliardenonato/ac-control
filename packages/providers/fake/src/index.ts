@@ -18,6 +18,7 @@ const CAPS = (energy: boolean): Capabilities => ({
   fan: { values: ["low", "mid", "high", "auto"] },
   swing: { vertical: true, horizontal: false },
   powerSave: true,
+  display: true,
   humiditySensor: false,
   energy: { supported: energy, granularities: energy ? ["day", "month"] : [], unit: "Wh", properties: energy ? ["energyUsage"] : [] },
 });
@@ -47,7 +48,7 @@ export class FakeProvider implements ACProvider {
     this.failNext = opts.failNext ?? [];
     this.caps = CAPS(opts.energy ?? true);
     this.lastTick = this.clock.now();
-    this.state = { power: false, mode: "cool", targetTemp: 24, currentTemp: this.temp, fan: "auto", online: true };
+    this.state = { power: false, mode: "cool", targetTemp: 24, currentTemp: this.temp, fan: "auto", display: true, online: true };
   }
 
   async getDevices(): Promise<ProviderDevice[]> { return [{ externalId: "fake-ac-1", name: "Ar da sala (fake)", model: "FAKE_001" }]; }
@@ -71,7 +72,7 @@ export class FakeProvider implements ACProvider {
     this.commands.push(patch);
     const changed: StateField[] = [];
     const set = <K extends StateField>(k: K, v: NormalizedState[K] | undefined) => { if (v !== undefined && this.state[k] !== v) { this.state[k] = v; changed.push(k); } };
-    set("power", patch.power); set("mode", patch.mode as Mode | undefined); set("targetTemp", patch.targetTemp); set("fan", patch.fan);
+    set("power", patch.power); set("mode", patch.mode as Mode | undefined); set("targetTemp", patch.targetTemp); set("fan", patch.fan); set("display", patch.display);
     if (changed.length) this.emit(changed, "mqtt");
   }
 
@@ -102,7 +103,7 @@ export class FakeProvider implements ACProvider {
   externalChange(patch: AttributePatch) {
     this.advance();
     const changed: StateField[] = [];
-    for (const [k, v] of Object.entries(patch)) { const key = ({ power: "power", mode: "mode", targetTemp: "targetTemp", fan: "fan" } as Record<string, StateField>)[k]; if (key && (this.state as any)[key] !== v) { (this.state as any)[key] = v; changed.push(key); } }
+    for (const [k, v] of Object.entries(patch)) { const key = ({ power: "power", mode: "mode", targetTemp: "targetTemp", fan: "fan", display: "display" } as Record<string, StateField>)[k]; if (key && (this.state as any)[key] !== v) { (this.state as any)[key] = v; changed.push(key); } }
     if (changed.length) this.emit(changed, "mqtt");
   }
   setAmbient(c: number) { this.advance(); this.ambient = c; }

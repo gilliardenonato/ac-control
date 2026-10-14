@@ -27,6 +27,7 @@ export function describeActions(a: Action[]): string {
     if (x.targetTemp !== undefined) p.push(`${x.targetTemp} °C`);
     if (x.fan) p.push(`ventilação ${FAN[x.fan] ?? x.fan}`);
     if (x.swingV !== undefined) p.push(`swing V ${x.swingV ? "on" : "off"}`);
+    if (x.display !== undefined) p.push(x.display ? "acender o visor" : "apagar o visor");
     if (x.powerSave !== undefined) p.push(`economia ${x.powerSave ? "on" : "off"}`);
     return p.join(", ");
   }).join(" → ");

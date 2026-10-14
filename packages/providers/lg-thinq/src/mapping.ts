@@ -11,6 +11,7 @@ export interface LgProfile {
   tempKey: "targetTemperature" | "coolTargetTemperature";
   swing: { v: boolean; h: boolean };
   hasPowerSave: boolean;
+  hasDisplay: boolean; // display.light gravável (ON/OFF)
   modeValues: string[]; // valores LG graváveis de currentJobMode
 }
 
@@ -44,14 +45,15 @@ export function parseProfile(raw: any): LgProfile {
   const wd = p.windDirection ?? {};
   const swing = { v: writable(wd.rotateUpDown), h: writable(wd.rotateLeftRight) };
   const hasPowerSave = writable(p.powerSave?.powerSaveEnabled);
+  const hasDisplay = writable(p.display?.light);
   const caps: LgProfile["caps"] = {
     power: !!op && (wValues(op).length === 0 || wValues(op).includes("POWER_ON")) && writable(op),
     temperature: range, modes,
     fan: fanKey ? { values: wValues(airFlow[fanKey]).map(lower) } : undefined,
     swing: swing.v || swing.h ? { vertical: swing.v, horizontal: swing.h } : undefined,
-    powerSave: hasPowerSave, humiditySensor: !!p.airQualitySensor?.humidity,
+    powerSave: hasPowerSave, display: hasDisplay, humiditySensor: !!p.airQualitySensor?.humidity,
   };
-  return { caps, fanKey, tempKey, swing, hasPowerSave, modeValues };
+  return { caps, fanKey, tempKey, swing, hasPowerSave, hasDisplay, modeValues };
 }
 
 const num = (v: unknown): number | undefined => (typeof v === "number" && Number.isFinite(v) ? v : undefined);
@@ -72,6 +74,8 @@ export function parseState(raw: any, profile?: LgProfile): { state: NormalizedSt
   }
   const fan = raw?.airFlow?.[profile?.fanKey ?? "windStrength"] ?? raw?.airFlow?.windStrength ?? raw?.airFlow?.windStrengthDetail;
   if (typeof fan === "string") s.fan = lower(fan) as Fan;
+  const light = raw?.display?.light;
+  if (light === "ON") s.display = true; else if (light === "OFF") s.display = false;
   const hum = num(raw?.airQualitySensor?.humidity); if (hum !== undefined) s.humidity = hum;
   return { state: s, fieldsPresent: STATE_FIELDS.filter((f) => s[f] !== undefined) };
 }
@@ -86,6 +90,7 @@ export function buildCommands(patch: AttributePatch, profile: LgProfile): Record
   if (patch.swingV !== undefined) out.push({ windDirection: { rotateUpDown: patch.swingV } });
   if (patch.swingH !== undefined) out.push({ windDirection: { rotateLeftRight: patch.swingH } });
   if (patch.powerSave !== undefined) out.push({ powerSave: { powerSaveEnabled: patch.powerSave } });
+  if (patch.display !== undefined) out.push({ display: { light: patch.display ? "ON" : "OFF" } });
   return out;
 }
 
@@ -102,5 +107,6 @@ export function checkPatch(patch: AttributePatch, p: LgProfile): string | null {
   if (patch.swingV !== undefined && !p.swing.v) return "swing vertical não suportado";
   if (patch.swingH !== undefined && !p.swing.h) return "swing horizontal não suportado";
   if (patch.powerSave !== undefined && !p.hasPowerSave) return "power-save não suportado";
+  if (patch.display !== undefined && !p.hasDisplay) return "visor não suportado";
   return null;
 }

@@ -8,7 +8,7 @@ import { Alert, Kpi, Segmented, Stepper } from "./ui.tsx";
 interface Sess { id: string; startTs: number; endTs: number | null; durationSec: number; open: boolean; origin: string | null; targetTemp: number | null; estimate: { wh: number | null; costBrl: number | null; provisional: boolean; reason: string | null } }
 interface Cmd { id: string; createdAt: number; origin: string; attributes: Record<string, unknown>; status: string; skipReason: string | null; errorKind: string | null; latencyMs: number | null }
 const ORIGIN = (o: string | null) => !o ? "—" : o.startsWith("automation:") ? "Automação" : ({ manual: "Manual (aqui)", external: "App/controle", unknown: "Já estava ligado", system: "Sistema" } as Record<string, string>)[o] ?? o;
-const ATTR = (a: Record<string, unknown>) => Object.entries(a).map(([k, v]) => k === "power" ? (v ? "ligar" : "desligar") : k === "targetTemp" ? `alvo ${v} °C` : k === "mode" ? `modo ${MODE_LABEL[String(v)] ?? v}` : k === "fan" ? `ventilação ${FAN_LABEL[String(v)] ?? v}` : `${k} ${v}`).join(", ");
+const ATTR = (a: Record<string, unknown>) => Object.entries(a).map(([k, v]) => k === "power" ? (v ? "ligar" : "desligar") : k === "targetTemp" ? `alvo ${v} °C` : k === "mode" ? `modo ${MODE_LABEL[String(v)] ?? v}` : k === "fan" ? `ventilação ${FAN_LABEL[String(v)] ?? v}` : k === "display" ? (v ? "acender visor" : "apagar visor") : `${k} ${v}`).join(", ");
 const STATUS: Record<string, [string, string]> = { confirmed: ["confirmado", "ok"], sent: ["enviado", "info"], pending: ["pendente", "info"], failed: ["falhou", "warn"], skipped: ["ignorado", ""] };
 const FAN_LABEL: Record<string, string> = { low: "Baixo", mid: "Médio", high: "Alto", auto: "Auto", nature: "Natural", low_mid: "Baixo-médio", mid_high: "Médio-alto" };
 const hhmm = (ms: number) => new Date(ms).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
@@ -107,6 +107,7 @@ export function Overview({ device, tick, cmdSeq, onToast, onReload, go }: { devi
             {caps?.temperature && s.targetTemp !== undefined && <div className="ctl"><span className="label">Temperatura alvo</span><Stepper label="Temperatura alvo" value={s.targetTemp} min={caps.temperature.min} max={caps.temperature.max} step={caps.temperature.step} unit="°C" disabled={!online || busy} onChange={(v) => send({ targetTemp: v })} /></div>}
             {caps && caps.modes.length > 0 && <div className="ctl"><span className="label">Modo</span><Segmented full label="Modo" value={s.mode} disabled={!online || busy} options={caps.modes.map((m) => ({ value: m, label: MODE_LABEL[m] ?? m }))} onChange={(v) => send({ mode: v })} /></div>}
             {caps?.fan && <div className="ctl"><span className="label">Ventilação</span><Segmented full label="Ventilação" value={s.fan} disabled={!online || busy} options={caps.fan.values.map((m) => ({ value: m, label: FAN_LABEL[m] ?? m }))} onChange={(v) => send({ fan: v })} /></div>}
+            {caps?.display && <div className="ctl"><span className="label">Visor do aparelho</span><Segmented full label="Visor do aparelho" value={s.display === undefined ? undefined : s.display ? "on" : "off"} disabled={!online || busy} options={[{ value: "on", label: "Aceso" }, { value: "off", label: "Apagado" }]} onChange={(v) => send({ display: v === "on" })} /></div>}
           </div>
         </section>
 

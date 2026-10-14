@@ -9,9 +9,9 @@ interface Run { id: string; startedAt: number; endedAt: number | null; outcome: 
 const OUTCOME: Record<string, string> = { until: "chegou na temperatura de saída", maxRuntime: "tempo máximo", runFor: "tempo definido", overridden: "você mexeu no aparelho", preempted: "outra regra assumiu", device_off: "aparelho desligado", blocked: "bloqueada por proteção", done: "concluída", end_failed: "não conseguiu desligar" };
 
 const DAYS = ["seg", "ter", "qua", "qui", "sex", "sáb", "dom"];
-interface Form { sensorId: string; name: string; priority: number; onTemp: number; onFor: number; useWindow: boolean; from: string; to: string; days: boolean[]; power: boolean; mode: string; target: number; fan: string;
+interface Form { sensorId: string; name: string; priority: number; onTemp: number; onFor: number; useWindow: boolean; from: string; to: string; days: boolean[]; power: boolean; mode: string; target: number; fan: string; display: string;
   offTemp: number; offFor: number; turnOff: boolean; maxH: number; cooldownMin: number; minOnMin: number; minOffMin: number; maxCmdH: number }
-const DEFAULT: Form = { sensorId: "", name: "Noite quente", priority: 50, onTemp: 27, onFor: 10, useWindow: true, from: "20:00", to: "06:00", days: Array(7).fill(true), power: true, mode: "cool", target: 23, fan: "auto",
+const DEFAULT: Form = { sensorId: "", name: "Noite quente", priority: 50, onTemp: 27, onFor: 10, useWindow: true, from: "20:00", to: "06:00", days: Array(7).fill(true), power: true, mode: "cool", target: 23, fan: "auto", display: "",
   offTemp: 24, offFor: 2, turnOff: true, maxH: 8, cooldownMin: 30, minOnMin: 10, minOffMin: 5, maxCmdH: 6 };
 
 function toInput(f: Form, deviceId: string) {
@@ -20,7 +20,7 @@ function toInput(f: Form, deviceId: string) {
   if (f.useWindow) conds.push({ type: "timeWindow", from: f.from, to: f.to });
   if (f.days.some((d) => !d)) conds.push({ type: "weekday", in: f.days.flatMap((d, i) => (d ? [i + 1] : [])) });
   const attrs: any = { type: "setAttributes", power: f.power };
-  if (f.mode) attrs.mode = f.mode; if (f.target) attrs.targetTemp = f.target; if (f.fan) attrs.fan = f.fan;
+  if (f.mode) attrs.mode = f.mode; if (f.target) attrs.targetTemp = f.target; if (f.fan) attrs.fan = f.fan; if (f.display) attrs.display = f.display === "on";
   return {
     name: f.name, deviceId, enabled: true, priority: f.priority,
     when: conds.length === 1 ? conds[0] : { type: "all", of: conds },
@@ -102,6 +102,7 @@ export function Automations({ device, tick, onToast }: { device: Device; tick: n
               <label className="f">Nome<input value={f.name} onChange={(e) => set("name", e.target.value)} required maxLength={80} /></label>
               <fieldset><legend>1 · Quando</legend>
                 <label className="f">Fonte da temperatura<select value={f.sensorId} onChange={(e) => set("sensorId", e.target.value)}><option value="">Sensor do próprio ar-condicionado</option>{sensors.map((x) => <option key={x.id} value={x.id}>{x.name} (sensor externo)</option>)}</select></label>
+                {f.power && !f.sensorId && <p className="small warn-text" role="note" style={{ margin: 0 }}>Desligado, o sensor do ar-condicionado não atualiza a temperatura, então esta regra só vai conseguir ligar o aparelho se a temperatura vier de um sensor externo (ESP32). Com o sensor do ar, use regras que só desligam.</p>}
                 <div className="grid2">
                   <label className="f">Temperatura ≥ (°C)<input type="number" step="0.5" value={f.onTemp} onChange={(e) => set("onTemp", +e.target.value)} /></label>
                   <label className="f">por pelo menos (min)<input type="number" min={0} value={f.onFor} onChange={(e) => set("onFor", +e.target.value)} /></label>
@@ -116,6 +117,7 @@ export function Automations({ device, tick, onToast }: { device: Device; tick: n
                   {caps && <label className="f">Modo<select value={f.mode} onChange={(e) => set("mode", e.target.value)}><option value="">(manter)</option>{caps.modes.map((m) => <option key={m} value={m}>{MODE_LABEL[m] ?? m}</option>)}</select></label>}
                   {caps?.temperature && <label className="f">Alvo (°C)<input type="number" min={caps.temperature.min} max={caps.temperature.max} step={caps.temperature.step} value={f.target} onChange={(e) => set("target", +e.target.value)} /></label>}
                   {caps?.fan && <label className="f">Ventilação<select value={f.fan} onChange={(e) => set("fan", e.target.value)}><option value="">(manter)</option>{caps.fan.values.map((m) => <option key={m} value={m}>{m}</option>)}</select></label>}
+                  {caps?.display && <label className="f">Visor<select value={f.display} onChange={(e) => set("display", e.target.value)}><option value="">(manter)</option><option value="off">apagar</option><option value="on">acender</option></select></label>}
                 </div>
               </fieldset>
               {f.power && <fieldset><legend>3 · Até</legend>

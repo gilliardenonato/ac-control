@@ -1,6 +1,12 @@
-# Sensor externo (ESP32) — opcional
+# Sensor externo (ESP32)
 
-O AC Control funciona só com o sensor do próprio ar-condicionado. Um sensor externo é um complemento: o sensor do split lê o ar junto ao aparelho e atualiza devagar (a LG pode demorar vários minutos), enquanto um ESP32 com DHT na altura da cama ou do sofá dá a temperatura que você sente, a cada 30 segundos.
+Controle, histórico, energia e automações que **desligam** por temperatura funcionam só com o sensor do próprio ar-condicionado. O sensor externo é um complemento, e é obrigatório só para **ligar** o ar por temperatura: o sensor do split lê o ar junto ao aparelho e atualiza devagar (a LG pode demorar vários minutos), enquanto um ESP32 com DHT na altura da cama ou do sofá dá a temperatura que você sente, a cada 30 segundos.
+
+## O que só funciona com o ESP32
+
+- **Ligar o ar por temperatura.** O sensor do split não atualiza a temperatura enquanto o aparelho está desligado, então uma regra "quando passar de 27 °C, ligar" só dispara se a temperatura vier do ESP32. Desligar por temperatura funciona com os dois.
+- **Umidade da sala.** Este modelo de ar-condicionado não tem sensor de umidade.
+- **Temperatura da sala em tempo real.** No painel e no gráfico, a curva do ESP32 se atualiza a cada 30 s; a do aparelho, a cada poucos minutos e só com ele ligado.
 
 O repositório **não** inclui o firmware do ESP32; só o contrato abaixo.
 

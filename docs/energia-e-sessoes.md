@@ -9,6 +9,18 @@ A API da LG devolve o consumo do aparelho em **Wh por dia** e **por mês**. Ela 
 | **MEDIDO** | número informado pelo aparelho | consumo de ontem, do mês, custo (Wh × tarifa) |
 | **ESTIMADO** | calculado aqui | consumo por sessão, projeção do mês |
 
+```mermaid
+flowchart LR
+  LG["LG<br/>Wh por dia e por mês"] --> C["Coleta"]
+  C --> D[("energy_daily<br/>energy_monthly")]
+  C --> SN[("energy_snapshot<br/>contador de hoje")]
+  D --> K["Consumo MEDIDO<br/>custo = kWh × tarifa"]
+  T[("tarifa por vigência")] --> K
+  D --> SS["Consumo por sessão<br/>ESTIMADO"]
+  SN --> SS
+  K --> PR["Projeção do mês<br/>ESTIMADO"]
+```
+
 ## Coleta
 
 - **Primeira execução:** importa até 120 dias de histórico.

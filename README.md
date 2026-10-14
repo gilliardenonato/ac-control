@@ -10,7 +10,7 @@
 ![React](https://img.shields.io/badge/UI-React%20%2B%20Vite-61DAFB?logo=react&logoColor=black)
 ![SQLite](https://img.shields.io/badge/DB-SQLite-003B57?logo=sqlite&logoColor=white)
 ![Docker](https://img.shields.io/badge/Deploy-Docker-2496ED?logo=docker&logoColor=white)
-![Testes](https://img.shields.io/badge/testes-171%20passando-brightgreen)
+![Testes](https://img.shields.io/badge/testes-175%20passando-brightgreen)
 
 <img src="docs/img/tema-escuro.webp" alt="Visão geral do AC Control" width="900">
 
@@ -28,7 +28,7 @@ O app da LG liga, desliga e muda a temperatura. Ele não liga o ar sozinho quand
 
 ### Visão geral
 
-Estado do aparelho em tempo real e tudo o que importa no dia: temperatura da sala, ligar/desligar, temperatura alvo, modo e ventilação, o gráfico das últimas 24 h (a faixa verde marca quando o ar esteve ligado), as automações ativas, as sessões recentes, os últimos comandos enviados e o quanto do orçamento do mês já foi gasto. O estado chega pelo MQTT da LG e é empurrado ao navegador por SSE, sem recarregar a página.
+Estado do aparelho em tempo real e tudo o que importa no dia: temperatura da sala, ligar/desligar, temperatura alvo, modo, ventilação e **visor do aparelho** (aceso/apagado, para a luz do split não incomodar à noite), o gráfico das últimas 24 h (a faixa verde marca quando o ar esteve ligado), as automações ativas, as sessões recentes, os últimos comandos enviados e o quanto do orçamento do mês já foi gasto. O estado chega pelo MQTT da LG e é empurrado ao navegador por SSE, sem recarregar a página.
 
 <img src="docs/img/visao-geral.webp" alt="Visão geral" width="900">
 
@@ -68,9 +68,11 @@ Como o consumo é medido e estimado: [`docs/energia-e-sessoes.md`](docs/energia-
 
 <img src="docs/img/configuracoes.webp" alt="Configurações" width="900">
 
-### Sensor externo ESP32 (opcional)
+### Sensor externo ESP32
 
-Tudo funciona só com o sensor do próprio ar-condicionado. Se você tiver um ESP32 com sensor de temperatura e umidade (DHT) servindo um JSON na rede local, o AC Control consulta a cada 30 s e passa a mostrar a temperatura e a umidade reais da sala no painel e no gráfico. As automações podem usar essa temperatura no lugar da do aparelho, que costuma ler o ar junto ao split. Contrato e passo a passo em [`docs/sensor-esp32.md`](docs/sensor-esp32.md).
+Controle, histórico, energia e automações que desligam o ar por temperatura funcionam só com o sensor do próprio ar-condicionado. Se você tiver um ESP32 com sensor de temperatura e umidade (DHT) servindo um JSON na rede local, o AC Control consulta a cada 30 s e passa a mostrar a temperatura e a umidade reais da sala no painel e no gráfico. As automações podem usar essa temperatura no lugar da do aparelho, que costuma ler o ar junto ao split. Contrato e passo a passo em [`docs/sensor-esp32.md`](docs/sensor-esp32.md).
+
+> **O que só funciona com o ESP32:** ligar o ar por temperatura. Com o aparelho desligado, o sensor do split não atualiza a temperatura, então a regra "quando passar de 27 °C, ligar" precisa da leitura do ESP32. Desligar por temperatura funciona com o sensor do ar. A umidade da sala também só existe com o ESP32.
 
 ### Tema claro e escuro
 

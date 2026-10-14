@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { DEFAULT_GUARDS, ProviderError, StateStore } from "@acc/domain";
 import { FakeProvider } from "@acc/provider-fake";
 import { openDb, Store } from "@acc/storage";
-import { CommandGateway, GatewayEvent } from "../src/index.ts";
+import { CommandGateway, GatewayEvent, validatePatch } from "../src/index.ts";
 
 function setup(opts: { cfg?: object } = {}) {
   const store = new Store(openDb(":memory:"));
@@ -44,6 +44,14 @@ describe("CommandGateway", () => {
     const c = await s.gw.submit({ deviceId: s.dev.id, attributes: { power: true }, origin: "manual" });
     expect(c).toMatchObject({ status: "skipped", skipReason: "already_in_state" });
     expect(s.provider.commands.length).toBe(1);
+  });
+
+  it("visor: apagar envia uma vez; repetir vira skipped; sem suporte é recusado", async () => {
+    const c = await s.gw.submit({ deviceId: s.dev.id, attributes: { display: false }, origin: "manual" }); await s.gw.idle();
+    expect(s.store.command(c.id)!.status).toBe("confirmed");
+    expect(s.provider.commands).toEqual([{ display: false }]);
+    expect(await s.gw.submit({ deviceId: s.dev.id, attributes: { display: false }, origin: "manual" })).toMatchObject({ status: "skipped", skipReason: "already_in_state" });
+    expect(validatePatch({ display: true }, { ...(await s.provider.getCapabilities()), display: false })).toBe("visor não suportado");
   });
 
   it("dedup parcial: remove só o que já vale", async () => {

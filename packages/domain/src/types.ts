@@ -9,10 +9,11 @@ export interface NormalizedState {
   currentTemp?: number;
   fan?: Fan;
   humidity?: number;
+  display?: boolean; // visor (luz) do aparelho aceso
   online?: boolean;
 }
 export type StateField = keyof NormalizedState;
-export const STATE_FIELDS: StateField[] = ["power", "mode", "targetTemp", "currentTemp", "fan", "humidity", "online"];
+export const STATE_FIELDS: StateField[] = ["power", "mode", "targetTemp", "currentTemp", "fan", "humidity", "display", "online"];
 
 /** Estado mesclado por campo; cada campo guarda quando foi observado. */
 export interface DeviceState {
@@ -27,6 +28,7 @@ export interface Capabilities {
   fan?: { values: Fan[] };
   swing?: { vertical: boolean; horizontal: boolean };
   powerSave: boolean;
+  display: boolean; // dá para acender/apagar o visor
   humiditySensor: boolean;
   energy: EnergyCapabilities;
 }
@@ -38,7 +40,7 @@ export interface EnergyCapabilities {
 }
 
 export type AttributePatch = Partial<{
-  power: boolean; mode: Mode; targetTemp: number; fan: Fan; swingV: boolean; swingH: boolean; powerSave: boolean;
+  power: boolean; mode: Mode; targetTemp: number; fan: Fan; swingV: boolean; swingH: boolean; powerSave: boolean; display: boolean;
 }>;
 
 export type EventSource = "mqtt" | "poll" | "command-echo";

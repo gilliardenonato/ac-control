@@ -2,20 +2,62 @@
 
 Um único processo Node: API Fastify, interface React estática e SQLite. O mapa de pastas está no [README](../README.md#estrutura-do-repositório).
 
-```
-navegador ──HTTP/SSE──▶ apps/api ──▶ CommandGateway ──▶ ACProvider ──▶ LG ThinQ (REST + MQTT)
-                           │                                 └─ fake (desenvolvimento e testes)
-                           ├─ StateStore · motor de automações · sessões · agendador
-                           ├─ SensorHub ──HTTP──▶ ESP32 (opcional)
-                           └─ SQLite (DATA_DIR)
+```mermaid
+flowchart TB
+  B["Navegador<br/>(React)"]
+  subgraph Servidor["Servidor: um processo Node"]
+    API["API Fastify<br/>rotas · SSE · login"]
+    DB[("SQLite")]
+    ENG["Motor de automações<br/>Sessões · Agendador"]
+    SH["SensorHub"]
+    GW["CommandGateway<br/>porta única dos comandos"]
+    PRV{{"ACProvider"}}
+  end
+  LG["LG ThinQ<br/>REST + MQTT"]
+  ESP["ESP32<br/>(opcional)"]
+  FAKE["fake<br/>desenvolvimento e testes"]
+  B <-->|HTTP + SSE| API
+  API --> DB
+  API --> GW
+  SH --> ENG
+  ENG --> GW
+  GW --> PRV
+  PRV --> LG
+  PRV -.-> FAKE
+  SH -->|HTTP a cada 30 s| ESP
 ```
 
 ## Dependências entre pacotes
 
-```
-domain ◀── contracts, provider-api, storage, analytics, automation
-provider-api ◀── providers/lg-thinq, providers/fake, automation
-todos ◀── apps/api        contracts ◀── apps/web
+As setas apontam para o que o pacote usa. `domain` não depende de ninguém, e `contracts`, `storage`, `analytics` e `automation` também o usam.
+
+```mermaid
+flowchart TB
+  subgraph apps
+    api["apps/api"]
+    web["apps/web"]
+  end
+  subgraph pacotes["packages"]
+    automation
+    analytics
+    storage
+    contracts
+    lg["providers/lg-thinq"]
+    fake["providers/fake"]
+    providerapi["provider-api"]
+  end
+  domain["domain<br/>todos os pacotes dependem dele"]
+  api --> automation
+  api --> analytics
+  api --> storage
+  api --> lg
+  api --> fake
+  api --> contracts
+  web --> contracts
+  automation --> providerapi
+  lg --> providerapi
+  fake --> providerapi
+  providerapi --> domain
 ```
 
 Duas regras são verificadas em `test/architecture.test.ts`:
@@ -25,13 +67,53 @@ Duas regras são verificadas em `test/architecture.test.ts`:
 
 ## Fluxos
 
-**Estado.** O MQTT da LG envia apenas os campos que mudaram. O provider normaliza esses campos, o `StateStore` faz o merge por campo (cada um guarda quando foi observado) e o resultado vai para o histórico, para as sessões, para o motor de automações e para o navegador via SSE. Um polling de reconciliação (2 min com regra armada ou ativa, 15 min com MQTT saudável, 10 min sem; até 30 min com backoff) cobre mensagens perdidas. Ao reconectar o MQTT, o estado é relido por completo.
+### Estado do aparelho
 
-**Comando** (manual ou de automação). `POST /api/v1/devices/:id/commands` responde 202 e entrega ao `CommandGateway`, que valida, aplica as proteções e enfileira por aparelho. O comando passa por `pending → sent → confirmed`, ou termina em `failed` / `skipped`. A confirmação vem do evento MQTT; se ele não chegar, o estado é relido.
+O MQTT da LG envia só os campos que mudaram. O `StateStore` junta cada campo ao que já sabia e guarda quando o viu pela última vez. Um polling de reconciliação (2 min com regra armada ou em execução, 15 min com MQTT saudável, 10 min sem; até 30 min com backoff) cobre mensagens perdidas, e ao reconectar o MQTT o estado é relido por completo.
 
-**Automação.** O motor reavalia as regras a cada evento de estado e a cada minuto. Detalhes em [automacoes.md](automacoes.md).
+```mermaid
+sequenceDiagram
+  participant LG as LG (MQTT)
+  participant P as Provider
+  participant S as StateStore
+  participant M as Automações e sessões
+  participant N as Navegador
+  LG->>P: evento só com o que mudou
+  P->>S: estado normalizado
+  S->>S: merge por campo
+  S->>M: mudança de estado
+  S-->>N: SSE (device.state)
+  Note over P,S: o agendador relê o estado completo a cada 2 a 15 min
+```
 
-**Energia e sessões.** Em [energia-e-sessoes.md](energia-e-sessoes.md).
+### Comando
+
+Vale para o painel e para as automações. `POST /api/v1/devices/:id/commands` responde 202 na hora e o comando segue em segundo plano.
+
+```mermaid
+sequenceDiagram
+  participant U as Painel ou automação
+  participant G as CommandGateway
+  participant P as Provider
+  participant LG as LG
+  U->>G: comando
+  G->>G: valida, deduplica e aplica limites
+  G-->>U: 202 (pending)
+  G->>P: envia (fila por aparelho)
+  P->>LG: REST
+  LG-->>G: evento MQTT confirma
+  Note over G: pending, sent, confirmed (ou failed / skipped)
+```
+
+Se o evento de confirmação não chegar, o estado é relido para confirmar.
+
+### Automação
+
+O motor reavalia as regras a cada evento de estado e a cada minuto. Detalhes em [automacoes.md](automacoes.md).
+
+### Energia e sessões
+
+Em [energia-e-sessoes.md](energia-e-sessoes.md).
 
 ## Proteções do CommandGateway
 

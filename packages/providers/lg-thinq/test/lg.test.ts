@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { providerContract } from "@acc/provider-api/contract";
-import { LgHttp, LgThinqProvider, buildCommands, chunk, parseProfile, parseState, parseUsage, toProviderError, LgApiError } from "../src/index.ts";
+import { LgHttp, LgThinqProvider, buildCommands, checkPatch, chunk, parseProfile, parseState, parseUsage, toProviderError, LgApiError } from "../src/index.ts";
 
 // Fixtures SINTÉTICAS baseadas na documentação oficial (exemplo de AC). Serão complementadas pelas reais do Spike 0.
 const PROFILE = { property: {
@@ -73,6 +73,25 @@ describe("mapeamento", () => {
       { operation: { airConOperationMode: "POWER_ON" } }, { airConJobMode: { currentJobMode: "COOL" } },
       { temperature: { targetTemperature: 23, unit: "C" } }, { airFlow: { windStrength: "AUTO" } }, { windDirection: { rotateUpDown: true } },
     ]);
+  });
+});
+
+describe("visor (display.light)", () => {
+  const withDisplay = () => { const raw = structuredClone(PROFILE) as any; raw.property.display = { light: { type: "enum", mode: ["r", "w"], value: { r: ["ON", "OFF"], w: ["ON", "OFF"] } } }; return raw; };
+  it("capability só existe se o perfil permitir gravar", () => {
+    expect(parseProfile(PROFILE).caps.display).toBe(false);
+    expect(parseProfile(withDisplay()).caps.display).toBe(true);
+  });
+  it("estado ON/OFF vira booleano, inclusive em delta de evento", () => {
+    expect(parseState({ display: { light: "OFF" } }).state).toEqual({ display: false });
+    expect(parseState({ display: { light: "ON" } }).fieldsPresent).toEqual(["display"]);
+  });
+  it("comando: display.light ON/OFF; recusado localmente se o perfil não suporta", () => {
+    const p = parseProfile(withDisplay());
+    expect(buildCommands({ display: false }, p)).toEqual([{ display: { light: "OFF" } }]);
+    expect(buildCommands({ display: true }, p)).toEqual([{ display: { light: "ON" } }]);
+    expect(checkPatch({ display: false }, p)).toBeNull();
+    expect(checkPatch({ display: false }, parseProfile(PROFILE))).toMatch(/visor/);
   });
 });
 

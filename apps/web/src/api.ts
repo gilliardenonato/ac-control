@@ -20,8 +20,8 @@ export const api = {
   del: (p: string) => req<void>("DELETE", p),
 };
 
-export interface Caps { power: boolean; temperature?: { min: number; max: number; step: number }; modes: string[]; fan?: { values: string[] }; energy: { supported: boolean } }
-export interface Device { id: string; name: string; model: string | null; state: { power?: boolean; mode?: string; targetTemp?: number; currentTemp?: number; fan?: string; humidity?: number; online?: boolean }; observedAt: Record<string, number>; capabilities: Caps | null; breaker: { reason: string; at: number } | null }
+export interface Caps { power: boolean; temperature?: { min: number; max: number; step: number }; modes: string[]; fan?: { values: string[] }; display?: boolean; energy: { supported: boolean } }
+export interface Device { id: string; name: string; model: string | null; state: { power?: boolean; mode?: string; targetTemp?: number; currentTemp?: number; fan?: string; humidity?: number; display?: boolean; online?: boolean }; observedAt: Record<string, number>; capabilities: Caps | null; breaker: { reason: string; at: number } | null }
 export interface AutomationState { ruleId: string; name: string; enabled: boolean; priority: number; state: string; since: number | null; untilTs: number | null; reason: string | null; runStartedAt: number | null; description: { when: string; then: string; until: string | null; onEnd: string | null } }
 export interface Money { wh: number | null; costBrl: number | null; basis: "measured" | "estimated" | null; provisional?: boolean; daysWithData?: number }
 export interface Dashboard {
